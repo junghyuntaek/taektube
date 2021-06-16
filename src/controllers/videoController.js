@@ -43,18 +43,20 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+  const { path: fileUrl } = req.file;
   const { title, description, hashtags } = req.body;
   try {
     await Video.create({
       title,
       description,
+      fileUrl,
       hashtags: Video.formatHashtags(hashtags),
     });
     return res.redirect("/");
   } catch (error) {
     return res.status(400).render("upload", {
       pageTitle: "Upload Video",
-      errorMessage: error._message
+      errorMessage: error._message,
     });
   }
 };
@@ -71,9 +73,9 @@ export const search = async (req, res) => {
   if (keyword) {
     videos = await Video.find({
       title: {
-        $regex: new RegExp(keyword, "i")
+        $regex: new RegExp(keyword, "i"),
       },
     });
-  };
+  }
   return res.render("search", { pageTitle: "Search", videos });
 };
