@@ -1,19 +1,10 @@
-#Wetube
+# Wetube
 
-- [x] global router
-/ -> Home
-/join -> Join
-/login -> Login
-/search -> Search
+## 기술 스택
 
-- [x] users router
-/users/:id -> See USer
-/users/logout -> Log Out
-/users/edit -> Edit My Profile
-/users/delete -> Delete My Profile
+- [] Node.js
+- [] MongoDB
 
-- [x] videos router
-/videos/:id -> See Video
-/videos/:id/edit -> Edit Video
-/videos/:id/delete -> Delete Video
-/videos/upload -> Upload Video
+## 기능
+
+- []
