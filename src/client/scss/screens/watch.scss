@@ -18,6 +18,24 @@
     }
   }
 }
+.video__add-comments {
+  margin: 0 auto;
+  .video__comment-form {
+    max-width: 600px;
+    display: flex;
+    justify-content: space-around;
+    textarea {
+      padding: 10px 20px;
+      border-radius: 1000px;
+      box-sizing: border-box;
+      &:focus {
+        outline: none;
+        background-color: white;
+        color: black;
+      }
+    }
+  }
+}
 .video__comments {
   display: flex;
   flex-direction: column;
@@ -31,5 +49,10 @@
     background-color: white;
     color: black;
     margin-bottom: 10px;
+    .video__comment-text {
+      &.disabled {
+        display: none;
+      }
+    }
   }
 }
