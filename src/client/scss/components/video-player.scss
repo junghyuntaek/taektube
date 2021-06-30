@@ -1,6 +1,9 @@
 #videoContainer {
   width: 100%;
   position: relative;
+  &:focus {
+    outline: none;
+  }
   video {
     width: 100%;
   }

@@ -1,7 +1,7 @@
 extends base
 
 block content 
-  div#videoContainer(data-id=video._id)
+  div#videoContainer(data-id=video._id, tabindex="-1")
     video(src="/"+video.fileUrl)
     div#videoControls.videoControls
       div.videoControls__play
@@ -20,18 +20,33 @@ block content
         span#fullScreen
           i.fas.fa-expand
 
-  div 
-    p=video.description
-    small=video.createdAt
-    small #{video.meta.views}회
-  div
-    small Uploaded by 
+  div.video__data
+    p.video__title=video.title
+    small.video__owner Uploaded by 
       a(href=`/users/${video.owner._id}`)=video.owner.name
-  if String(video.owner._id) === String(loggedInUser._id)
-    a(href=`${video.id}/edit`) Edit video &rarr;
-    br
-    a(href=`${video.id}/delete`) Delete video &rarr;
+    small.video__createdAt=new Date(video.createdAt).toLocaleDateString("ko-ko", {weekday: "long", year: "numeric", month: "long", day: "numeric"})
+    if String(video.owner._id) === String(loggedInUser._id)
+      a(href=`${video.id}/edit`) Edit video &rarr;
+      br
+      a(href=`${video.id}/delete`) Delete video &rarr;
+
+  if loggedIn
+    div.video__add-comments
+      form.video__comment-form#commentForm
+        textarea(cols="30", rows="10", placeholder="Write a nice comment...")
+        button Add comment
+
+  div.video__comments
+    ul
+      each comment in video.comments.reverse()
+        li.video__comment(data-id=comment._id)
+          i.fas.fa-comment
+          span   #{comment.text}
+          if String(comment.owner._id) === String(loggedInUser._id) || String(video.owner._id) === String(loggedInUser._id)
+            span.video__comment-delete   ❌
 
 
 block scripts
   script(src="/static/js/videoPlayer.js") 
+  if loggedIn
+    script(src="/static/js/commentSection.js") 

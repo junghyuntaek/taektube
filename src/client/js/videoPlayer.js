@@ -128,6 +128,10 @@ const handleKeyUp = (e) => {
   }
 };
 
+const handleVideoFocus = () => {
+  videoContainer.addEventListener("keyup", handleKeyUp);
+};
+
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumnChange);
@@ -137,6 +141,7 @@ video.addEventListener("click", handlePlayClick);
 video.addEventListener("ended", handleEnded);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
+videoContainer.addEventListener("focus", handleVideoFocus);
+// videoContainer.addEventListener("fullscreenchange", handleFullscreenChange);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullScreen);
-document.addEventListener("keyup", handleKeyUp);
