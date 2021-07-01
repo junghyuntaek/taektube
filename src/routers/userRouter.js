@@ -9,6 +9,8 @@ import {
   finishGithubLogin,
   getChangePassword,
   postChangePassword,
+  startKakaoLogin,
+  finishKakaoLogin,
 } from "../controllers/userController";
 import {
   avatarUpload,
@@ -32,6 +34,8 @@ userRouter
 userRouter.get("/remove", remove);
 userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin);
+userRouter.get("/kakao/start", publicOnlyMiddleware, startKakaoLogin);
+userRouter.get("/kakao/finish", publicOnlyMiddleware, finishKakaoLogin);
 userRouter.get("/:id", see);
 
 export default userRouter;
