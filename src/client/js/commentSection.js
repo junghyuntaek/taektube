@@ -59,7 +59,7 @@ const handleDelete = async (event) => {
   const commentBtn = event.target.parentNode;
   const comment = commentBtn.parentNode;
   const deleteComment = await fetch(
-    `/api/${videoId}/comments/${comment.dataset.id}`,
+    `/api/videos/${videoId}/comments/${comment.dataset.id}`,
     {
       method: "DELETE",
     }

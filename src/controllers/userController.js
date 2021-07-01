@@ -167,7 +167,6 @@ export const finishKakaoLogin = async (req, res) => {
       },
     })
   ).json();
-  console.log("tokenRequest: ", tokenRequest);
   if ("access_token" in tokenRequest) {
     const { access_token } = tokenRequest;
     // scope: account_email profile_image profile_nickname
@@ -291,6 +290,7 @@ export const postChangePassword = async (req, res) => {
   return res.redirect("/users/logout");
 };
 
+// 유저 탈퇴 만들기
 export const remove = (req, res) => res.send("Remove User");
 
 export const see = async (req, res) => {
@@ -310,3 +310,5 @@ export const see = async (req, res) => {
     user,
   });
 };
+// 구독 정보 처리
+export const following = (req, res) => {};

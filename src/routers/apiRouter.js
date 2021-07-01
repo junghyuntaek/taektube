@@ -15,8 +15,11 @@ apiRouter.post(
   modifyComment
 );
 apiRouter.delete(
-  "/:videoId([0-9a-f]{24})/comments/:commentId([0-9a-f]{24})",
+  "/videos/:videoId([0-9a-f]{24})/comments/:commentId([0-9a-f]{24})",
   deleteComment
+);
+apiRouter.post(
+  "/users/:followId([0-9a-f]{24})/followingId([0-9a-f]{24})/following"
 );
 
 export default apiRouter;

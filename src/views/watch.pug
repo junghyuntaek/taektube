@@ -27,8 +27,9 @@ block content
         small.video__owner Uploaded by 
           a(href=`/users/${video.owner._id}`)=video.owner.name
         small.video__createdAt=new Date(video.createdAt).toLocaleDateString("ko-ko", {weekday: "long", year: "numeric", month: "long", day: "numeric"})
-      div.video__data-subscribe
-        span 구독
+      if String(loggedInUser._id) !== String(video.owner._id)
+        div.follow(data-userId=video.owner._id)
+          span 구독
     if String(video.owner._id) === String(loggedInUser._id)
       a(href=`${video.id}/edit`) Edit video &rarr;
       br
@@ -58,3 +59,4 @@ block scripts
   script(src="/static/js/videoPlayer.js") 
   if loggedIn
     script(src="/static/js/commentSection.js") 
+    script(src="/static/js/follow.js") 
