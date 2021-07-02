@@ -114,7 +114,7 @@ export const finishGithubLogin = async (req, res) => {
       (email) => email.primary === true && email.verified === true
     );
     if (!emailObj) {
-      // set notification
+      req.flash("errer", "There is no email information.");
       return res.redirect("/login");
     }
     let user = await User.findOne({ email: emailObj.email });
@@ -183,7 +183,7 @@ export const finishKakaoLogin = async (req, res) => {
       email,
     } = data.kakao_account;
     if (!email) {
-      // set notification
+      req.flash("errer", "There is no email information.");
       return res.redirect("/login");
     }
     let user = await User.findOne({ email });
