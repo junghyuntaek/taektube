@@ -64,6 +64,9 @@ main {
   text-align: center;
   animation: goAway 0.5s forwards;
   animation-delay: 5s;
+  &.info {
+    background-color: beige;
+  }
   &.error {
     background-color: tomato;
     color: white;
