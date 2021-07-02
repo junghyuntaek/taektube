@@ -1,4 +1,5 @@
 import express from "express";
+import { deleteFollowing, following } from "../controllers/userController";
 import {
   createComment,
   deleteComment,
@@ -19,7 +20,12 @@ apiRouter.delete(
   deleteComment
 );
 apiRouter.post(
-  "/users/:followId([0-9a-f]{24})/followingId([0-9a-f]{24})/following"
+  "/users/:followId([0-9a-f]{24})/:followingId([0-9a-f]{24})/following",
+  following
+);
+apiRouter.delete(
+  "/users/:followId([0-9a-f]{24})/:followingId([0-9a-f]{24})/deleteFollowing",
+  deleteFollowing
 );
 
 export default apiRouter;

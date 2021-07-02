@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   follows: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  followers: { type: Number, default: 0, required: true },
 });
 
 userSchema.pre("save", async function () {

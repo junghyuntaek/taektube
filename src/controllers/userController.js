@@ -305,10 +305,41 @@ export const see = async (req, res) => {
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found" });
   }
+  const followIndex = req.session.user.follows.indexOf(id);
   return res.render("users/profile", {
     pageTitle: `${user.name} Profile`,
     user,
+    followIndex,
   });
 };
 // 구독 정보 처리
-export const following = (req, res) => {};
+export const following = async (req, res) => {
+  const { followId, followingId } = req.params;
+  const followUser = await User.findById(followId);
+  const followingUser = await User.findById(followingId);
+  if (!(followUser && followingUser)) {
+    return res.sendStatus(404);
+  }
+  followUser.follows.push(followingId);
+  await followUser.save();
+  req.session.user = followUser;
+  followingUser.followers = followingUser.followers + 1;
+  await followingUser.save();
+  return res.sendStatus(200);
+};
+
+export const deleteFollowing = async (req, res) => {
+  const { followId, followingId } = req.params;
+  const followUser = await User.findById(followId);
+  const followingUser = await User.findById(followingId);
+  if (!(followUser && followingUser)) {
+    return res.sendStatus(404);
+  }
+  const followIndex = followUser.follows.indexOf(followingId);
+  followUser.follows.splice(followIndex, 1);
+  await followUser.save();
+  req.session.user = followUser;
+  followingUser.followers = followingUser.followers - 1;
+  await followingUser.save();
+  return res.sendStatus(200);
+};

@@ -13,8 +13,16 @@ block content
     h3=user.name
   div.profile__follow
     if String(loggedInUser._id) !== String(user._id)
-      div.follow(data-userId=user._id)
-        span 구독
+      div.follow-box
+        if followIndex === -1
+          div.follow#follow(data-followid=loggedInUser._id, data-followingid=user._id)
+            span#followSpan 구독
+        else
+          div.follow.following#follow(data-followid=loggedInUser._id, data-followingid=user._id)
+            span#followSpan 구독중
+        span#followers 구독자 #{user.followers}명
+    else 
+      span 구독자 #{user.followers}명
   div.video-grid
     each video in user.videos.reverse()
       +video(video)

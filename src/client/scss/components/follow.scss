@@ -1,8 +1,21 @@
-.follow {
+.follow-box {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 40px;
-  background-color: $red;
+  .follow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    width: 75px;
+    height: 40px;
+    background-color: $red;
+    &.following {
+      background-color: gray;
+      color: black;
+    }
+    margin-right: 5px;
+    #followSpan {
+      letter-spacing: 1px;
+    }
+  }
 }
