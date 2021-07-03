@@ -1,5 +1,6 @@
 import User from "../models/User";
 import Video from "../models/Video";
+import Comment from "../models/Comment";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
 
@@ -291,7 +292,51 @@ export const postChangePassword = async (req, res) => {
 };
 
 // 유저 탈퇴 만들기
-export const remove = (req, res) => res.send("Remove User");
+export const remove = async (req, res) => {
+  const { id } = req.params;
+  const { user } = req.session;
+  if (String(id) !== String(user._id)) {
+    req.flash("error", "Different user information.");
+    return res.redirect("/");
+  }
+  const findUser = await User.findById(id);
+  if (!findUser) {
+    req.flash("error", "User doen't exist.");
+    return res.redirect("/");
+  }
+  // 유저가 쓴 댓글 정보 삭제 -> 아래꺼 안되고 Comment.deleteMany 쓰면 된다.
+  await Comment.deleteMany({ owner: id });
+  // 비디오에 있는 댓글 정보 삭제 + 유저가 올린 비디오 정보 삭제
+  if (findUser.videos.length !== 0) {
+    for (const videoId of findUser.videos) {
+      await Comment.deleteMany({ video: videoId });
+    }
+  }
+  await Video.deleteMany({ owner: id });
+  // 유저가 구독한 사람들의 구독 정보 제거
+  if (findUser.follows.length !== 0) {
+    for (const followingId of findUser.follows) {
+      const followingUser = await User.findById(String(followingId));
+      const followingIndex = followingUser.followers.indexOf(id);
+      followingUser.followers.splice(followingIndex, 1);
+      followingUser.followerNumber = followingUser.followerNumber - 1;
+      await followingUser.save();
+    }
+  }
+  // 유저의 팔로워 정보들 삭제
+  if (findUser.followers.length !== 0) {
+    for (const followerId of findUser.followers) {
+      const followerUser = await User.findById(String(followerId));
+      const followerIndex = followerUser.follows.indexOf(id);
+      followerUser.follows.splice(followerIndex, 1);
+      await followerUser.save();
+    }
+  }
+  // 유저 삭제
+  await User.findByIdAndDelete(id);
+  req.session.destroy();
+  return res.redirect("/");
+};
 
 export const see = async (req, res) => {
   const { id } = req.params;
@@ -323,7 +368,8 @@ export const following = async (req, res) => {
   followUser.follows.push(followingId);
   await followUser.save();
   req.session.user = followUser;
-  followingUser.followers = followingUser.followers + 1;
+  followingUser.followers.push(followId);
+  followingUser.followerNumber = followingUser.followerNumber + 1;
   await followingUser.save();
   return res.sendStatus(200);
 };
@@ -339,7 +385,9 @@ export const deleteFollowing = async (req, res) => {
   followUser.follows.splice(followIndex, 1);
   await followUser.save();
   req.session.user = followUser;
-  followingUser.followers = followingUser.followers - 1;
+  const followingIndex = followingUser.followers.indexOf(followId);
+  followingUser.followers.splice(followingIndex, 1);
+  followingUser.followerNumber = followingUser.followerNumber - 1;
   await followingUser.save();
   return res.sendStatus(200);
 };

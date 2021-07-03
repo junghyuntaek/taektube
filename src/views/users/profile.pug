@@ -20,9 +20,9 @@ block content
         else
           div.follow.following#follow(data-followid=loggedInUser._id, data-followingid=user._id)
             span#followSpan 구독중
-        span#followers 구독자 #{user.followers}명
+        span#followerNumber 구독자 #{user.followerNumber}명
     else 
-      span 구독자 #{user.followers}명
+      span 구독자 #{user.followerNumber}명
   div.video-grid
     each video in user.videos.reverse()
       +video(video)

@@ -14,3 +14,5 @@ block content
     if !loggedInUser.socialOnly
       div.edit-profile__password
         a(href="change-password") Change Password &rarr;
+    div.edit-profile__password
+      a(href=`/users/remove/${loggedInUser._id}`) Widthdrawal... &rarr;

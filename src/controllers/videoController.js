@@ -10,9 +10,18 @@ export const home = async (req, res) => {
 };
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id).populate("owner").populate("comments");
+  const video = await Video.findById(id)
+    .populate("owner")
+    .populate({
+      path: "comments",
+      populate: { path: "owner" },
+    });
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
+  }
+  if (!req.session.user) {
+    const followIndex = -1;
+    return res.render("watch", { pageTitle: video.title, video, followIndex });
   }
   const followIndex = req.session.user.follows.indexOf(String(video.owner._id));
   return res.render("watch", { pageTitle: video.title, video, followIndex });
@@ -148,10 +157,34 @@ export const createComment = async (req, res) => {
   });
   video.comments.push(comment._id);
   await video.save();
-  const userComment = await User.findById(user._id);
-  userComment.comments.push(comment._id);
-  await userComment.save();
   return res.status(201).json({ newCommentId: comment._id });
+};
+
+export const deleteComment = async (req, res) => {
+  const {
+    params: { videoId, commentId },
+    session: { user },
+  } = req;
+  const comment = await Comment.findById(commentId);
+  const findVideo = await Video.findById(videoId);
+  if (!comment) {
+    return res.sendStatus(404);
+  }
+  if (
+    !(
+      String(comment.owner) === String(user._id) ||
+      String(findVideo.owner) === String(user._id)
+    )
+  ) {
+    return res.sendStatus(404);
+  }
+  // 비디오 해당 댓글 삭제
+  const videoCommentIndex = findVideo.comments.indexOf(commentId);
+  findVideo.comments.splice(videoCommentIndex, 1);
+  await findVideo.save();
+
+  await Comment.findByIdAndDelete(commentId);
+  return res.sendStatus(204);
 };
 
 export const modifyComment = async (req, res) => {
@@ -171,34 +204,4 @@ export const modifyComment = async (req, res) => {
   }
   await Comment.findByIdAndUpdate(commentId, { text });
   return res.sendStatus(201);
-};
-
-export const deleteComment = async (req, res) => {
-  const {
-    params: { videoId, commentId },
-    session: { user },
-  } = req;
-  const comment = await Comment.findById(commentId);
-  const findVideo = await Video.findById(videoId);
-  if (!comment) {
-    return res.sendStatus(404);
-  }
-  if (String(comment.owner) !== String(user._id)) {
-    return res.sendStatus(404);
-  }
-  if (String(findVideo.owner) !== String(user._id)) {
-    return res.sendStatus(404);
-  }
-  // 유저 해당 댓글 삭제
-  const findUser = await User.findById(user._id);
-  const userCommentIndex = findUser.comments.indexOf(commentId);
-  findUser.comments.splice(userCommentIndex, 1);
-  await findUser.save();
-  // 비디오 해당 댓글 삭제
-  const videoCommentIndex = findVideo.comments.indexOf(commentId);
-  findVideo.comments.splice(videoCommentIndex, 1);
-  await findVideo.save();
-
-  await Comment.findByIdAndDelete(commentId);
-  return res.sendStatus(204);
 };

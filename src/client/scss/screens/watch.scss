@@ -95,6 +95,7 @@ img {
         background-color: white;
         color: black;
         border-bottom: 2px solid tomato;
+        border-radius: 2px;
       }
     }
     button {
@@ -119,24 +120,67 @@ img {
     align-items: center;
     color: white;
     margin-top: 30px;
-    .video__comment__columns:first-child {
+    .video__comment-info {
       display: flex;
       align-items: center;
       .video__comment-text {
         display: flex;
         flex-direction: column;
-        .video__comment-name {
-          background-color: rgba($color: #fff, $alpha: 0.1);
-          margin-bottom: 8px;
+        div {
+          margin-bottom: 10px;
+          .video__comment-name {
+            background-color: rgba($color: #fff, $alpha: 0.1);
+            padding: 0 5px;
+          }
         }
         &.disabled {
           display: none;
         }
       }
     }
-    .video__comment__columns:last-child {
+    .video__comment-btn {
       .delete__btn {
         margin-left: 10px;
+      }
+      &.disabled {
+        display: none;
+      }
+    }
+    .video__modifyComments-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      textarea {
+        width: 100%;
+        height: 38px;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        resize: none;
+        transition: all 0.3s ease-in-out;
+        &:focus {
+          outline: none;
+          background-color: white;
+          color: black;
+          border-bottom: 2px solid tomato;
+          border-radius: 2px;
+        }
+      }
+      div {
+        button {
+          border: none;
+          width: 45px;
+          height: 25px;
+          border-radius: 3px;
+          margin-left: 10px;
+          background-color: gray;
+        }
+        .modify-btn {
+          background-color: tomato;
+          color: white;
+        }
       }
     }
   }

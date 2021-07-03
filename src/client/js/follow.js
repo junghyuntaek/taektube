@@ -1,6 +1,6 @@
 const followBtn = document.getElementById("follow");
 const followSpan = document.getElementById("followSpan");
-const follwers = document.getElementById("followers");
+const follwerNumber = document.getElementById("followerNumber");
 
 const handleFollow = async () => {
   followBtn.classList.add("following");
@@ -9,8 +9,8 @@ const handleFollow = async () => {
   await fetch(`/api/users/${followid}/${followingid}/following`, {
     method: "POST",
   });
-  const followersNumber = Number(followers.innerText.substr(4, 1));
-  followers.innerText = `구독자 ${followersNumber + 1}명`;
+  const updateFollowerNumber = Number(followerNumber.innerText.substr(4, 1));
+  followerNumber.innerText = `구독자 ${updateFollowerNumber + 1}명`;
 };
 
 const handleDeleteFollow = async () => {
@@ -20,8 +20,8 @@ const handleDeleteFollow = async () => {
   await fetch(`/api/users/${followid}/${followingid}/deleteFollowing`, {
     method: "DELETE",
   });
-  const followersNumber = Number(followers.innerText.substr(4, 1));
-  followers.innerText = `구독자 ${followersNumber - 1}명`;
+  const updateFollowerNumber = Number(followerNumber.innerText.substr(4, 1));
+  followerNumber.innerText = `구독자 ${updateFollowerNumber - 1}명`;
 };
 
 const handleFollowDeleteFollow = () => {

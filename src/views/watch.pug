@@ -58,7 +58,7 @@ block content
             else
               div.follow.following#follow(data-followid=loggedInUser._id, data-followingid=video.owner._id)
                 span#followSpan 구독중
-            span#followers 구독자 #{video.owner.followers}명
+            span#followerNumber 구독자 #{video.owner.followerNumber}명
     div.video__data-lineThree
       div.video__data-hashtags
         each hashtag in video.hashtags
@@ -74,14 +74,14 @@ block content
   if loggedIn
     div.video__add-comments
       div.video__add-comments__avatar
-        if !video.owner.avatarUrl
+        if !loggedInUser.avatarUrl
           span.video__comment__none-avatar 😂
         else
-          if video.owner.socialOnly
-            img(src=video.owner.avatarUrl).video__comment__avatar
+          if loggedInUser.socialOnly
+            img(src=loggedInUser.avatarUrl).video__comment__avatar
           else
-            img(src="/" + video.owner.avatarUrl).video__comment__avatar
-      form.video__comment-form#commentForm
+            img(src="/" + loggedInUser.avatarUrl).video__comment__avatar
+      form.video__comment-form#commentForm(data-userid=loggedInUser._id,  data-name=loggedInUser.name)
         textarea(placeholder="공개 댓글 추가...")
         div
           button 댓글
@@ -90,24 +90,24 @@ block content
     ul
       each comment in video.comments.reverse()
         li.video__comment(data-id=comment._id)
-          div.video__comment__columns
-            a(href=`/users/${video.owner._id}`)
-              if !video.owner.avatarUrl
+          div.video__comment-info
+            a(href=`/users/${comment.owner._id}`)
+              if !comment.owner.avatarUrl
                 span.video__comment__none-avatar 😂
               else
-                if video.owner.socialOnly
-                  img(src=video.owner.avatarUrl).video__comment__avatar
+                if comment.owner.socialOnly
+                  img(src=comment.owner.avatarUrl).video__comment__avatar
                 else
-                  img(src="/" + video.owner.avatarUrl).video__comment__avatar
+                  img(src="/" + comment.owner.avatarUrl).video__comment__avatar
             div.video__comment-text
-              span.video__comment-name #{video.owner.name}
-              span #{comment.text}
-          div.video__comment__columns
+              div
+                span.video__comment-name #{comment.owner.name}
+              span.comment-text #{comment.text}
+          div.video__comment-btn
             if String(comment.owner._id) === String(loggedInUser._id) || String(video.owner._id) === String(loggedInUser._id)
-              div.video__comment-btn
-                if String(comment.owner._id) === String(loggedInUser._id)
-                  span.modify__btn 💬
-                span.delete__btn ❌
+              if String(comment.owner._id) === String(loggedInUser._id)
+                span.modify__btn 💬
+              span.delete__btn ❌
 
 
 block scripts
