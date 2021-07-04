@@ -6,10 +6,13 @@ block content
     if !user.avatarUrl
       span.none-avatar 😂
     else
-      if user.avatarUrl.includes("github" || "kakao")
+      if isHeroku
         img(src=user.avatarUrl).avatar
       else
-        img(src="/"+user.avatarUrl).avatar
+        if user.avatarUrl.includes("github" || "kakao")
+          img(src=user.avatarUrl).avatar
+        else
+          img(src="/"+user.avatarUrl).avatar
     h3=user.name
   div.profile__follow
     if String(loggedInUser._id) !== String(user._id)
