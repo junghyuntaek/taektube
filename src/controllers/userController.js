@@ -143,7 +143,7 @@ export const startKakaoLogin = (req, res) => {
   const config = {
     response_type: "code",
     client_id: process.env.KAKAO_CLIENT,
-    redirect_uri: "http://localhost:4000/users/kakao/finish",
+    redirect_uri: "https://taektube.herokuapp.com/users/kakao/finish",
   };
   const params = new URLSearchParams(config).toString();
   const finalUrl = `${baseUrl}?${params}`;
@@ -154,7 +154,7 @@ export const finishKakaoLogin = async (req, res) => {
   const config = {
     grant_type: "authorization_code",
     client_id: process.env.KAKAO_CLIENT,
-    redirect_uri: "http://localhost:4000/users/kakao/finish",
+    redirect_uri: "https://taektube.herokuapp.com/users/kakao/finish",
     code: req.query.code,
     client_secret: process.env.KAKAO_SECRET,
   };
