@@ -130,18 +130,15 @@ const handleModify = (event) => {
 
   comment.appendChild(modifyComment);
 
-  button1.addEventListener = ("click", handleStay);
-
-  const handleStay = (event) => {
-    event.preventDefault();
-    button1.removeEventListener("click", handleStay);
-    commentText.classList.remove("disabled");
-    commentBtn.classList.remove("disabled");
-    modifyComment.remove();
-  };
-
   modifyComment.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (event.submitter.className === "cancle-btn") {
+      event.preventDefault();
+      commentText.classList.remove("disabled");
+      commentBtn.classList.remove("disabled");
+      modifyComment.remove();
+      return;
+    }
     const modifyText = textarea.value;
     if (modifyText === "") {
       return;

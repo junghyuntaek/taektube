@@ -33,8 +33,8 @@ block content
         h2.video__data-title=video.title
         span 조회수 #{video.meta.views}회 ▪ #{new Date(video.createdAt).toLocaleDateString("ko-ko")}
       div.video__data-lineOne__columns
-        i.far.fa-thumbs-up
-        span=video.meta.rating
+        i#ratingBtn.far.fa-thumbs-up
+        span#rating=video.meta.rating
     div.video__data-lineTwo
       div.video__data-lineTwo__columns
         div.video__data-avatar
