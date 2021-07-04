@@ -2,7 +2,7 @@ extends base
 
 block content 
   div#videoContainer(data-id=video._id, tabindex="-1")
-    video(src="/"+video.fileUrl)
+    video(src=video.fileUrl)
     div#videoControls.videoControls
       div.videoControls__columns
         input(type="range", step="1", value=0, min="0")#timeline.videoControls__timeline
@@ -42,10 +42,7 @@ block content
             if !video.owner.avatarUrl
               span.video-data__none-avatar 😂
             else
-              if video.owner.avatarUrl.includes("github" || "kakao")
-                img(src=video.owner.avatarUrl).video-data__avatar
-              else
-                img(src="/" + video.owner.avatarUrl).video-data__avatar
+              img(src=video.owner.avatarUrl).video-data__avatar
         div.video__data-lineTwo-info
           a(href=`/users/${video.owner._id}`)
             span.video__data-name=video.owner.name
@@ -77,10 +74,7 @@ block content
         if !loggedInUser.avatarUrl
           span.video__comment__none-avatar 😂
         else
-          if loggedInUser.avatarUrl.includes("github" || "kakao")
-            img(src=loggedInUser.avatarUrl).video__comment__avatar
-          else
-            img(src="/" + loggedInUser.avatarUrl).video__comment__avatar
+          img(src=loggedInUser.avatarUrl).video__comment__avatar
       form.video__comment-form#commentForm(data-userid=loggedInUser._id,  data-name=loggedInUser.name)
         textarea(placeholder="공개 댓글 추가...")
         div
@@ -95,10 +89,7 @@ block content
               if !comment.owner.avatarUrl
                 span.video__comment__none-avatar 😂
               else
-                if comment.owner.avatarUrl.includes("github" || "kakao")
-                  img(src=comment.owner.avatarUrl).video__comment__avatar
-                else
-                  img(src="/" + comment.owner.avatarUrl).video__comment__avatar
+                img(src=comment.owner.avatarUrl).video__comment__avatar
             div.video__comment-text
               div
                 span.video__comment-name #{comment.owner.name}

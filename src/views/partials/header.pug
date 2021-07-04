@@ -18,11 +18,7 @@ header
             if !loggedInUser.avatarUrl
               span.none-avatar 😂
             else 
-              if loggedInUser.avatarUrl
-                if loggedInUser.avatarUrl.includes("github" || "kakao")
-                  img(src=loggedInUser.avatarUrl).header__avatar
-                else
-                  img(src="/"+ loggedInUser.avatarUrl).header__avatar
+              img(src=loggedInUser.avatarUrl).header__avatar
       else
         li 
           a(href="/login") Login
