@@ -6,7 +6,7 @@ block content
     if !user.avatarUrl
       span.none-avatar 😂
     else
-      if user.socialOnly
+      if user.avatarUrl.includes("github" || "kakao")
         img(src=user.avatarUrl).avatar
       else
         img(src="/"+user.avatarUrl).avatar
