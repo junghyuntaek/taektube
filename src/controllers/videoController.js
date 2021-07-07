@@ -6,7 +6,12 @@ export const home = async (req, res) => {
   const videos = await Video.find({})
     .sort({ createdAt: "desc" })
     .populate("owner");
-  return res.render("home", { pageTitle: "Home", videos });
+  if (!req.session.user) {
+    return res.render("home", { pageTitle: "Home", videos });
+  }
+  const user = await User.findById(req.session.user._id).populate("follows");
+  const follows = user.follows;
+  return res.render("home", { pageTitle: "Home", videos, follows });
 };
 export const watch = async (req, res) => {
   const { id } = req.params;
@@ -47,7 +52,7 @@ export const postEdit = async (req, res) => {
   const {
     user: { _id },
   } = req.session;
-  const video = await Video.exists({ _id: id });
+  const video = await Video.findById(id);
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }

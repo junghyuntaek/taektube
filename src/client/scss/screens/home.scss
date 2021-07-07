@@ -1,0 +1,83 @@
+.home {
+  display: flex;
+  width: 100%;
+  .home-menu {
+    width: 270px;
+    margin-right: 20px;
+    background-color: #2b2b2b;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    border-top: 1px solid #2b2b2b;
+    .home-menu__columns {
+      padding: 10px 0;
+      border-bottom: 1px solid #3b3b3b;
+      li {
+        padding: 10px 25px;
+        i {
+          font-size: 18px;
+          display: inline-block;
+          width: 40px;
+          span {
+            font-size: 15px;
+          }
+        }
+        &:hover {
+          background-color: #3b3b3b;
+        }
+      }
+    }
+    .home-menu__columns:nth-child(3) {
+      .follow-list__none-login {
+        padding: 20px 28px;
+        h6 {
+          font-size: 14px;
+          margin-bottom: 10px;
+        }
+        .header__btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid #3ea6ff;
+          width: 90px;
+          height: 35px;
+          color: #3ea6ff;
+          span {
+            margin-left: 5px;
+          }
+        }
+      }
+      .follow-list {
+        h4 {
+          font-size: 14px;
+          margin-top: 8px;
+          margin-left: 20px;
+          margin-bottom: 8px;
+        }
+        li {
+          display: flex;
+          align-items: center;
+          padding: 7px 20px;
+          font-size: 14px;
+          overflow: hidden;
+          .follows__none-avatar {
+            font-size: 18px;
+          }
+          .follows__avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+          }
+        }
+        .follows__none {
+          display: block;
+          margin: 20px;
+          margin-bottom: 8px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  .video-grid {
+    padding-top: 20px;
+  }
+}

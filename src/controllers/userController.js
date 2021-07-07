@@ -4,6 +4,7 @@ import Comment from "../models/Comment";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
 
+// join
 export const getJoin = (req, res) => {
   res.render("join", { pageTitle: "Join" });
 };
@@ -39,6 +40,7 @@ export const postJoin = async (req, res) => {
     });
   }
 };
+// login
 export const getLogin = (req, res) => {
   return res.render("login", { pageTitle: "Login" });
 };
@@ -64,7 +66,7 @@ export const postLogin = async (req, res) => {
   req.session.user = user;
   return res.redirect("/");
 };
-
+// github social login
 export const startGithubLogin = (req, res) => {
   const baseUrl = `https://github.com/login/oauth/authorize`;
   const config = {
@@ -76,7 +78,6 @@ export const startGithubLogin = (req, res) => {
   const finalUrl = `${baseUrl}?${params}`;
   return res.redirect(finalUrl);
 };
-
 export const finishGithubLogin = async (req, res) => {
   const baseUrl = "https://github.com/login/oauth/access_token";
   const config = {
@@ -137,7 +138,7 @@ export const finishGithubLogin = async (req, res) => {
     return res.redirect("/login");
   }
 };
-
+// kakao social login
 export const startKakaoLogin = (req, res) => {
   const baseUrl = `https://kauth.kakao.com/oauth/authorize`;
   const config = {
@@ -206,11 +207,12 @@ export const finishKakaoLogin = async (req, res) => {
     return res.redirect("/login");
   }
 };
-
+// logout
 export const logout = (req, res) => {
   req.session.destroy();
   return res.redirect("/");
 };
+// edit profile
 export const getEdit = (req, res) => {
   return res.render("edit-profile", { pageTitle: "Edit Profile" });
 };
@@ -254,7 +256,7 @@ export const postEdit = async (req, res) => {
 
   return res.redirect("/users/edit");
 };
-
+// change password
 export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly === true) {
     req.flash("error", "Can't change password.");
@@ -291,7 +293,7 @@ export const postChangePassword = async (req, res) => {
   return res.redirect("/users/logout");
 };
 
-// 유저 탈퇴 만들기
+// 유저 탈퇴
 export const remove = async (req, res) => {
   const { id } = req.params;
   const { user } = req.session;
@@ -338,26 +340,33 @@ export const remove = async (req, res) => {
   return res.redirect("/");
 };
 
+// watch user's profile
 export const see = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id).populate({
     path: "videos",
     populate: {
       path: "owner",
-      model: "User",
     },
   });
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found" });
   }
-  const followIndex = req.session.user.follows.indexOf(id);
+  if (req.session.user) {
+    const followIndex = req.session.user.follows.indexOf(id);
+    return res.render("users/profile", {
+      pageTitle: `${user.name} Profile`,
+      user,
+      followIndex,
+    });
+  }
   return res.render("users/profile", {
     pageTitle: `${user.name} Profile`,
     user,
-    followIndex,
+    followIndex: -1,
   });
 };
-// 구독 정보 처리
+// follow
 export const following = async (req, res) => {
   const { followId, followingId } = req.params;
   const followUser = await User.findById(followId);
@@ -373,7 +382,7 @@ export const following = async (req, res) => {
   await followingUser.save();
   return res.sendStatus(200);
 };
-
+// follow cancle
 export const deleteFollowing = async (req, res) => {
   const { followId, followingId } = req.params;
   const followUser = await User.findById(followId);

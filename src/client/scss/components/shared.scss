@@ -4,8 +4,9 @@
   font-size: 18px;
 }
 .video-grid {
+  width: 100%;
   display: grid;
-  gap: 30px 50px;
+  gap: 15px 40px;
   grid-template-columns: repeat(4, 1fr);
 }
 .auth-switch {
