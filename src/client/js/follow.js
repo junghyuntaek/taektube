@@ -22,13 +22,13 @@ const handleFollow = async () => {
 };
 
 const handleDeleteFollow = async () => {
+  const { followid, followingid } = followBtn.dataset;
   if (followid === undefined) {
     alertNotLogin();
     return;
   }
   followBtn.classList.remove("following");
   followSpan.innerText = "구독";
-  const { followid, followingid } = followBtn.dataset;
   await fetch(`/api/users/${followid}/${followingid}/deleteFollowing`, {
     method: "DELETE",
   });

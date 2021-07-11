@@ -20,8 +20,6 @@
   - [x] Watch Video
   - [x] User Profile
 
-- [x] Realtime Commenting(add/modify/delete)
-
 - [x] Page Features
 
   - [x] Home
