@@ -4,15 +4,15 @@ block content
   if errorMessage
     span=errorMessage
   form(method="POST", enctype="multipart/form-data").edit-profile__form
-    label(for="avatar") Avatar
+    label(for="avatar") 프로필 사진
     input(type="file", id="avatar", name="avatar", accept="image/*")
     input(placeholder="Name", name="name", type="text", required, value=loggedInUser.name)
     input(placeholder="email", name="email", type="email", required, value=loggedInUser.email)
     input(placeholder="Username", name="username", type="text", required, value=loggedInUser.username)
     input(placeholder="Location", name="location", type="text", required, value=loggedInUser.location)
-    input(type="submit", value="Update Profile")
+    button.submit 프로필 수정
     if !loggedInUser.socialOnly
       div.edit-profile__password
-        a(href="change-password") Change Password &rarr;
+        a(href="change-password") 비밀번호 변경 &rarr;
     div.edit-profile__password
-      a(href=`/users/remove/${loggedInUser._id}`) Widthdrawal... &rarr;
+      a(href=`/users/remove/${loggedInUser._id}`) 회원탈퇴... &rarr;

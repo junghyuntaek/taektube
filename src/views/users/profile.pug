@@ -30,7 +30,8 @@ block content
     each video in user.videos.reverse()
       +video(video)
     else
-      span.empty__message No videos found
+      span.empty__message 비디오 없음
 
 block scripts
   script(src="/static/js/follow.js") 
+  script(src="/static/js/videoPreview.js") 

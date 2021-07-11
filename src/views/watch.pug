@@ -3,9 +3,9 @@ extends base
 block content 
   div#videoContainer(data-id=video._id, tabindex="-1")
     if isHeroku
-      video(src=video.fileUrl)
+      video(src=video.fileUrl, preload="metadata")
     else
-      video(src="/"+video.fileUrl)
+      video(src="/"+video.fileUrl, preload="metadata")
     div#videoControls.videoControls
       div.videoControls__columns
         input(type="range", step="1", value=0, min="0")#timeline.videoControls__timeline
@@ -124,6 +124,6 @@ block content
 
 block scripts
   script(src="/static/js/videoPlayer.js") 
+  script(src="/static/js/follow.js") 
   if loggedIn
     script(src="/static/js/commentSection.js") 
-    script(src="/static/js/follow.js") 

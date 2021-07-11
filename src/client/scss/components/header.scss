@@ -1,9 +1,15 @@
 header {
+  position: fixed;
+  z-index: 3;
+  top: 0;
   padding: 15px 20px 15px 25px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #2b2b2b;
+  box-sizing: border-box;
+  border-bottom: 1px solid #3b3b3b;
   .header__logo {
     display: flex;
     align-items: center;

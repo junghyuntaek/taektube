@@ -1,96 +1,113 @@
-extends base
 include mixins/video
+include mixins/message
 
-block side
-  div.home
-    div.home-menu
-      div.home-menu__columns
-        ul
-          li
-            i.fas.fa-home
-            span 홈
-          li
-            i.fas.fa-compass
-            span 탐색
-          li
-            i.fab.fa-youtube-square
-            span 구독
-      div.home-menu__columns
-        ul
-          li
-            i.fas.fa-toolbox
-            span 보관함
-          li
-            i.fas.fa-history
-            span 시청기록
-          if loggedIn
+doctype html
+html(lang="ko")
+  head
+    title #{pageTitle} | #{siteName}
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+    link(rel="stylesheet", href="/static/css/styles.css")
+    link(rel="shortcut icon", href="https://www.youtube.com/s/desktop/35e75ccf/img/favicon.ico", type="image/x-icon")
+  body
+    if messages.error
+      +message("error", messages.error)
+    if messages.info 
+      +message("info", messages.info)
+    if messages.success 
+      +message("success", messages.success)
+    include partials/header
+    div.home
+      div.home-menu
+        div.home-menu__columns
+          ul
             li
-              i.fas.fa-video
-              span 내 동영상
+              i.fas.fa-home
+              span 홈
             li
-              i.fas.fa-clock
-              span 나중에 볼 동영상
-      div.home-menu__columns
-        if !loggedIn
-          div.follow-list__none-login
-            h6 로그인하면 동영상에 댓글을 달거나 구독할 수 있습니다.
-            a(href="/login")
-              div.header__btn
-                i.fas.fa-user-circle
-                  span 로그인
-        else
-          div.follow-list
-            h4 구독
-            ul
-              each follow in follows
-                a(href=`/users/${follow._id}`)
-                  li
-                    if !follow.avatarUrl
-                      span.follows__none-avatar 😂
-                    else
-                      if isHeroku
-                        img(src=follow.avatarUrl).follows__avatar
+              i.fas.fa-compass
+              span 탐색
+            li
+              i.fab.fa-youtube-square
+              span 구독
+        div.home-menu__columns
+          ul
+            li
+              i.fas.fa-toolbox
+              span 보관함
+            li
+              i.fas.fa-history
+              span 시청기록
+            if loggedIn
+              li
+                i.fas.fa-video
+                span 내 동영상
+              li
+                i.fas.fa-clock
+                span 나중에 볼 동영상
+        div.home-menu__columns
+          if !loggedIn
+            div.follow-list__none-login
+              h6 로그인하면 동영상에 댓글을 달거나 구독할 수 있습니다.
+              a(href="/login")
+                div.header__btn
+                  i.fas.fa-user-circle
+                    span 로그인
+          else
+            div.follow-list
+              h4 구독
+              ul
+                each follow in follows
+                  a(href=`/users/${follow._id}`)
+                    li
+                      if !follow.avatarUrl
+                        span.follows__none-avatar 😂
                       else
-                        if follow.avatarUrl.includes("github" || "kakao")
+                        if isHeroku
                           img(src=follow.avatarUrl).follows__avatar
                         else
-                          img(src="/"+follow.avatarUrl).follows__avatar
-                    span=follow.name
-              else
-                span.follows__none 구독자 없음
-      div.home-menu__columns
-        ul
-          li
-            i.fas.fa-film
-            span 영화
-          li
-            i.fas.fa-gamepad
-            span 게임
-          li
-            i.fab.fa-chromecast
-            span 실시간
-          li
-            i.fas.fa-lightbulb
-            span 학습
-          li
-            i.fas.fa-trophy
-            span 스포츠
-      div.home-menu__columns
-        ul
-          li
-            i.fas.fa-cog
-            span 설정
-          li
-            i.fas.fa-flag
-            span 신고 기록
-          li
-            i.fas.fa-question-circle
-            span 고객센터
-          li
-            i.fas.fa-exclamation-circle
-            span 의견 보내기
-    div.video-grid
-      each video in videos
-        +video(video)
-      else 
-        span.empty__message No videos found
+                          if follow.avatarUrl.includes("github" || "kakao")
+                            img(src=follow.avatarUrl).follows__avatar
+                          else
+                            img(src="/"+follow.avatarUrl).follows__avatar
+                      span=follow.name
+                else
+                  span.follows__none 구독자 없음
+        div.home-menu__columns
+          ul
+            li
+              i.fas.fa-film
+              span 영화
+            li
+              i.fas.fa-gamepad
+              span 게임
+            li
+              i.fab.fa-chromecast
+              span 실시간
+            li
+              i.fas.fa-lightbulb
+              span 학습
+            li
+              i.fas.fa-trophy
+              span 스포츠
+        div.home-menu__columns
+          ul
+            li
+              i.fas.fa-cog
+              span 설정
+            li
+              i.fas.fa-flag
+              span 신고 기록
+            li
+              i.fas.fa-question-circle
+              span 고객센터
+            li
+              i.fas.fa-exclamation-circle
+              span 의견 보내기
+      div.video-grid
+        each video in videos
+          +video(video)
+        else 
+          span.empty__message 비디오 없음
+    footer.home-footer &copy; #{new Date().getFullYear()} Taektube
+  script(src="/static/js/main.js") 
+  script(src="/static/js/videoPreview.js") 

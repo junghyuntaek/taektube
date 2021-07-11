@@ -2,10 +2,18 @@ const followBtn = document.getElementById("follow");
 const followSpan = document.getElementById("followSpan");
 const follwerNumber = document.getElementById("followerNumber");
 
+const alertNotLogin = () => {
+  alert("로그인이 필요한 기능입니다!");
+};
+
 const handleFollow = async () => {
+  const { followid, followingid } = followBtn.dataset;
+  if (followid === undefined) {
+    alertNotLogin();
+    return;
+  }
   followBtn.classList.add("following");
   followSpan.innerText = "구독중";
-  const { followid, followingid } = followBtn.dataset;
   await fetch(`/api/users/${followid}/${followingid}/following`, {
     method: "POST",
   });
@@ -14,6 +22,10 @@ const handleFollow = async () => {
 };
 
 const handleDeleteFollow = async () => {
+  if (followid === undefined) {
+    alertNotLogin();
+    return;
+  }
   followBtn.classList.remove("following");
   followSpan.innerText = "구독";
   const { followid, followingid } = followBtn.dataset;

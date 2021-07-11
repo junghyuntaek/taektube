@@ -11,5 +11,8 @@
   text-align: center;
   a {
     text-decoration: underline;
+    &:hover {
+      color: #3ea6ff;
+    }
   }
 }

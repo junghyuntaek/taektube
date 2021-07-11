@@ -20,10 +20,91 @@
     all: unset;
     position: absolute;
     font-size: 18px;
-    right: 15px;
+    right: 40px;
     background-color: rgba(0, 0, 0, 0);
     text-align: center;
     cursor: pointer;
     color: tomato;
+  }
+}
+
+.search-video {
+  margin: 0 auto;
+  margin-top: 60px;
+  width: 80%;
+  .search-video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 20%;
+    .search-video-mixin {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      .search-video-mixin__thumb-wrapper {
+        position: relative;
+        width: 30%;
+        height: 0;
+        padding-bottom: 16.9%;
+        margin-right: 30px;
+        .search-video-mixin__thumb {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 7px;
+          background-color: ivory;
+        }
+      }
+      .search-video-mixin__info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        .search-video-mixin__data {
+          padding-top: 10px;
+          width: 100%;
+          overflow: hidden;
+          margin-bottom: 30px;
+          .search-video-mixin__title {
+            font-size: 18px;
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .search-video-mixin__meta {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+            font-size: 13px;
+          }
+        }
+        .search-video-mixin__name {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 20px;
+          .search-video-mixin__none-avatar {
+            font-size: 30px;
+          }
+          .search-video-mixin__avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+          }
+        }
+        .search-video-mixin__hashtags {
+          margin-bottom: 10px;
+          color: rgba($color: rgb(99, 138, 211), $alpha: 0.9);
+        }
+      }
+    }
+    &:hover {
+      color: rgb(255, 222, 152);
+    }
   }
 }

@@ -1,13 +1,28 @@
 .home {
-  display: flex;
   width: 100%;
+  margin-top: 68px;
   .home-menu {
-    width: 270px;
-    margin-right: 20px;
+    width: 240px;
+    position: fixed;
+    z-index: 1;
     background-color: #2b2b2b;
+    height: 93vh;
     padding-bottom: 20px;
     box-sizing: border-box;
-    border-top: 1px solid #2b2b2b;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 15px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-clip: padding-box;
+      border: 3.5px solid transparent;
+    }
+    &:hover {
+      &::-webkit-scrollbar-thumb {
+        background-color: #4b4b4b;
+      }
+    }
     .home-menu__columns {
       padding: 10px 0;
       border-bottom: 1px solid #3b3b3b;
@@ -60,12 +75,15 @@
           font-size: 14px;
           overflow: hidden;
           .follows__none-avatar {
-            font-size: 18px;
+            font-size: 22px;
+            display: inline-block;
+            width: 40px;
           }
           .follows__avatar {
             width: 30px;
             height: 30px;
             border-radius: 50%;
+            margin-right: 10px;
           }
         }
         .follows__none {
@@ -76,8 +94,17 @@
         }
       }
     }
+    .home-menu__columns:last-child {
+      border-bottom: none;
+    }
   }
   .video-grid {
-    padding-top: 20px;
+    margin-left: 240px;
+    padding: 50px 60px 20px 60px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, auto));
   }
+}
+
+.home-footer {
+  padding-left: 240px;
 }

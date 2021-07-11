@@ -4,9 +4,9 @@ mixin video(video)
       div.video-mixin__thumb-wrapper
         a(href=`/videos/${video.id}`)
           if isHeroku
-            div.video-mixin__thumb(style=`background-image:url(${video.thumbUrl});background-size:cover;background-position:center;`)
+            video.video-mixin__thumb(src=video.fileUrl, poster=video.thumbUrl , muted, preload="metadata")
           else
-            div.video-mixin__thumb(style=`background-image:url(/${video.thumbUrl});background-size:cover;background-position:center;`)
+            video.video-mixin__thumb(src="/"+video.fileUrl, poster="/"+video.thumbUrl , muted, preload="metadata")
       div.video-mixin__info
         a(href=`/users/${video.owner._id}`) 
           if !video.owner.avatarUrl
@@ -22,4 +22,5 @@ mixin video(video)
         div.video-mixin__data
             span.video-mixin__title=video.title
             div.video-mixin__meta
-              span #{video.owner.name} ▪ #{video.meta.views}회
+              span #{video.owner.name}
+              span 조회수 #{video.meta.views}회 ▪ #{new Date(video.createdAt).toLocaleDateString("ko-ko")}

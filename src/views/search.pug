@@ -7,8 +7,39 @@ block content
     button
       i.fas.fa-search
 
-  div.video-grid
+  div.search-video
     each video in videos 
-      +video(video)
+      div.search-video-wrapper
+        div.search-video-mixin
+          div.search-video-mixin__thumb-wrapper
+            a(href=`/videos/${video.id}`)
+              if isHeroku
+                video.search-video-mixin__thumb(src=video.fileUrl, poster=video.thumbUrl , muted, preload="metadata")
+              else
+                video.search-video-mixin__thumb(src="/"+video.fileUrl, poster="/"+video.thumbUrl , muted, preload="metadata")
+          div.search-video-mixin__info
+            div.search-video-mixin__data
+                span.search-video-mixin__title=video.title
+                div.search-video-mixin__meta
+                  span 조회수 #{video.meta.views}회 ▪ #{new Date(video.createdAt).toLocaleDateString("ko-ko")}
+            a(href=`/users/${video.owner._id}`) 
+              div.search-video-mixin__name
+                if !video.owner.avatarUrl
+                  span.search-video-mixin__none-avatar 😂
+                else
+                  if isHeroku
+                    img(src=video.owner.avatarUrl).search-video-mixin__avatar
+                  else
+                    if video.owner.avatarUrl.includes("github" || "kakao")
+                      img(src=video.owner.avatarUrl).search-video-mixin__avatar
+                    else
+                      img(src="/"+video.owner.avatarUrl).search-video-mixin__avatar
+                span=video.owner.name
+            div.search-video-mixin__hashtags   
+              each hashtag in video.hashtags
+                span #{hashtag} 
     else 
-      span.empty__message No videos found
+      span.empty__message 비디오 없음
+
+block scripts
+  script(src="/static/js/videoPreview.js") 
